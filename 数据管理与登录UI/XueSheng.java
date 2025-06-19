@@ -1,6 +1,7 @@
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.UUID;
-import java.sql.Timestamp;
 
 public class XueSheng implements Serializable {
     private String xueHao;
