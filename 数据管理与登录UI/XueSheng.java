@@ -1,6 +1,7 @@
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.UUID;
-import java.sql.Timestamp;
 
 public class XueSheng implements Serializable {
     private String xueHao;
@@ -9,7 +10,6 @@ public class XueSheng implements Serializable {
     private String chuShengNianYueRi;
 
     public XueSheng(String xingMing, String xingBie, String chuShengNianYueRi) {
-        this.xueHao = generateXueHao();
         this.xingMing = xingMing;
         this.xingBie = xingBie;
         this.chuShengNianYueRi = chuShengNianYueRi;
