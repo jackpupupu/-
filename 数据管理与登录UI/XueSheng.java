@@ -3,6 +3,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
+//完成学生信息录入:生成学号,输入姓名性别出生年月
+
+//接口实现,允许该类的对象被序列化为字节流
 public class XueSheng implements Serializable {
     private String xueHao;
     private String xingMing;
@@ -16,6 +19,7 @@ public class XueSheng implements Serializable {
         this.chuShengNianYueRi = chuShengNianYueRi;
     }
 
+
     /*
 
     private String generateXueHao() {
@@ -26,7 +30,9 @@ public class XueSheng implements Serializable {
     }
      */
 
-    //更改学号生成方法,原先的太繁琐
+    //更改学号生成方法
+
+
     // 记录当天已生成的学号数量（重置时间：每天0点）
     private static int dailySequence = 0;
 
@@ -43,10 +49,12 @@ public class XueSheng implements Serializable {
         return datePart + sequencePart;
     }
 
-    
+
+
+
     public String getXueHao() {
         return xueHao;
-    }
+    }//xueHao只设置getter方法保证学号不可变
 
     public String getXingMing() {
         return xingMing;
@@ -77,5 +85,6 @@ public class XueSheng implements Serializable {
         return "学号: " + xueHao + ", 姓名: " + xingMing + ", 性别: " + xingBie + ", 出生年月日: " + chuShengNianYueRi;
     }
 }
+
 
 
