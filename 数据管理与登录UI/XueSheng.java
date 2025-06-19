@@ -10,6 +10,7 @@ public class XueSheng implements Serializable {
     private String chuShengNianYueRi;
 
     public XueSheng(String xingMing, String xingBie, String chuShengNianYueRi) {
+        this.xueHao = generateXueHao(); // 关键修改：生成学号
         this.xingMing = xingMing;
         this.xingBie = xingBie;
         this.chuShengNianYueRi = chuShengNianYueRi;
