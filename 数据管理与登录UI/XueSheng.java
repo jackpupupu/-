@@ -15,10 +15,34 @@ public class XueSheng implements Serializable {
         this.chuShengNianYueRi = chuShengNianYueRi;
     }
 
+    /*
+
     private String generateXueHao() {
+        //UUID.randomUUID()：生成全局唯一标识符
+        //new Timestamp(System.currentTimeMillis()).getTime()：获取当前时间戳
+        //拼接生成学号
         return UUID.randomUUID().toString() + new Timestamp(System.currentTimeMillis()).getTime();
     }
+     */
 
+    //更改学号生成方法,原先的太繁琐
+    // 记录当天已生成的学号数量（重置时间：每天0点）
+    private static int dailySequence = 0;
+
+    // 生成格式为 yyyyMMdd+4位序列号的学号（如202503013137）
+    private String generateXueHao() {
+        // 1. 获取当前日期（yyyyMMdd）
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        String datePart = dateFormat.format(new Date());
+
+        // 2. 生成4位序列号（每天从0开始递增）
+        String sequencePart = String.format("%04d", ++dailySequence);
+
+        // 3. 拼接成完整学号
+        return datePart + sequencePart;
+    }
+
+    
     public String getXueHao() {
         return xueHao;
     }
