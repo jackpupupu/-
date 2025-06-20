@@ -27,11 +27,10 @@ public class ExcelDaoChu {
             Row row = sheet.createRow(i + 1);
             row.createCell(0).setCellValue(b.getXueHao());
             row.createCell(1).setCellValue(b.getXingMing());
-            // 假设科目顺序为：数学、Java、体育
-            double[] keMuChengJi = b.getKeMuChengJi();
-            for (int j = 0; j < 3; j++) {
-                row.createCell(j + 2).setCellValue(keMuChengJi.length > j ? keMuChengJi[j] : 0);
-            }
+            // 按科目名获取成绩，避免顺序问题
+            row.createCell(2).setCellValue(b.getKeMuChengJiByName("数学"));
+            row.createCell(3).setCellValue(b.getKeMuChengJiByName("Java"));
+            row.createCell(4).setCellValue(b.getKeMuChengJiByName("体育"));
             row.createCell(5).setCellValue(b.getZongChengJi());
             row.createCell(6).setCellValue(b.getBanJiZongChengJiPingJun());
         }

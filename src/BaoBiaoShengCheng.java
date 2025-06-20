@@ -4,16 +4,16 @@ public class BaoBiaoShengCheng {
     // 学生报表数据结构
     public static class XueShengBaoBiao implements Serializable {
         // 学生基本信息
-        private String xueHao;              // 学号
-        private String xingMing;            // 姓名
+        private final String xueHao;              // 学号
+        private final String xingMing;            // 姓名
         
         // 成绩信息
-        private String[] keMuMing;          // 科目名称数组
-        private double[] keMuChengJi;       // 科目成绩数组
+        private final String[] keMuMing;          // 科目名称数组
+        private final double[] keMuChengJi;       // 科目成绩数组
         private double zongChengJi;         // 总成绩
         
         // 班级平均分信息
-        private double[] keMuBanJiPingJun;  // 科目班级平均分数组
+        private final double[] keMuBanJiPingJun;  // 科目班级平均分数组
         private double banJiZongChengJiPingJun;  // 班级总成绩平均值
 
         // 构造方法
@@ -33,11 +33,6 @@ public class BaoBiaoShengCheng {
         // 获取姓名
         public String getXingMing() {
             return xingMing;
-        }
-
-        // 获取科目名称
-        public String[] getKeMuMing() {
-            return keMuMing;
         }
 
         // 获取科目成绩
@@ -83,6 +78,16 @@ public class BaoBiaoShengCheng {
         // 设置班级总成绩平均值
         public void setBanJiZongChengJiPingJun(double banJiZongChengJiPingJun) {
             this.banJiZongChengJiPingJun = banJiZongChengJiPingJun;
+        }
+
+        // 通过科目名获取成绩
+        public double getKeMuChengJiByName(String keMu) {
+            for (int i = 0; i < keMuMing.length; i++) {
+                if (keMuMing[i] != null && keMuMing[i].equals(keMu)) {
+                    return keMuChengJi[i];
+                }
+            }
+            return 0;
         }
     }
 

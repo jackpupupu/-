@@ -1,9 +1,6 @@
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
-import java.sql.Timestamp;
 
 public class XueShengGuanLi {
     private static final String XUE_SHENG_WEN_JIAN = "xuesheng.dat";
@@ -66,10 +63,17 @@ public class XueShengGuanLi {
         }
     }
 
+    // 读取学生数据文件，返回List<XueSheng>，如果没有则返回空list
+    @SuppressWarnings("unchecked") // 这个注解可以消除类型转换的警告
     private List<XueSheng> zaiRuXueSheng() {
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(XUE_SHENG_WEN_JIAN))) {
-            return (List<XueSheng>) ois.readObject();
+        try {
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(XUE_SHENG_WEN_JIAN));
+            // 这里强制类型转换，前提是写入时也是List<XueSheng>
+            List<XueSheng> list = (List<XueSheng>) ois.readObject();
+            ois.close();
+            return list;
         } catch (FileNotFoundException e) {
+            // 文件不存在就返回空的list
             return new ArrayList<>();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();

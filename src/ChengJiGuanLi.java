@@ -1,4 +1,3 @@
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -105,10 +104,17 @@ public class ChengJiGuanLi {
         }
     }
 
+    // 读取成绩数据文件，返回Map<String, ChengJi>，如果没有则返回空map
+    @SuppressWarnings("unchecked") // 这个注解可以消除类型转换的警告
     private Map<String, ChengJi> zaiRuChengJi() {
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(CHENG_JI_WEN_JIAN))) {
-            return (Map<String, ChengJi>) ois.readObject();
+        try {
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(CHENG_JI_WEN_JIAN));
+            // 这里强制类型转换，前提是写入时也是Map<String, ChengJi>
+            Map<String, ChengJi> map = (Map<String, ChengJi>) ois.readObject();
+            ois.close();
+            return map;
         } catch (FileNotFoundException e) {
+            // 文件不存在就返回空的map
             return new HashMap<>();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
