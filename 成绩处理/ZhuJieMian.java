@@ -1,4 +1,3 @@
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -10,8 +9,6 @@ public class ZhuJieMian extends JFrame {
     private XueShengGuanLi xueShengGuanLi;
     private ChengJiGuanLi chengJiGuanLi;
     private BaoBiaoShengCheng baoBiaoShengCheng;
-    private ExcelDaoChu excelDaoChu;
-
     public ZhuJieMian() {
         setTitle("学生成绩管理系统");
         setSize(800, 600);
@@ -21,7 +18,7 @@ public class ZhuJieMian extends JFrame {
         xueShengGuanLi = new XueShengGuanLi();
         chengJiGuanLi = new ChengJiGuanLi();
         baoBiaoShengCheng = new BaoBiaoShengCheng();
-        excelDaoChu = new ExcelDaoChu();
+        new ExcelDaoChu();
 
         JTabbedPane tabbedPane = new JTabbedPane();
 
@@ -156,24 +153,35 @@ public class ZhuJieMian extends JFrame {
         reportArea.setEditable(false);
         JButton exportExcelButton = new JButton("导出到Excel");
 
-        generateReportButton.addActionListener(e -> {
-            List<BaoBiaoShengCheng.XueShengBaoBiao> baoBiao = baoBiaoShengCheng.shengChengBaoBiao(xueShengGuanLi.getXueShengLieBiao(), chengJiGuanLi.getChengJiMap());
-            StringBuilder sb = new StringBuilder();
-            for (BaoBiaoShengCheng.XueShengBaoBiao sbb : baoBiao) {
-                sb.append("学号: ").append(sbb.xueHao)
-                  .append(", 姓名: ").append(sbb.xingMing)
-                  .append(", 各科目成绩: ").append(sbb.keMuChengJi)
-                  .append(", 总成绩: ").append(sbb.zongChengJi)
-                  .append(", 班级总成绩平均值: ").append(sbb.banJiZongChengJiPingJun)
-                  .append("\n");
+        generateReportButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                XueSheng[] xueShengArr = xueShengGuanLi.getXueShengLieBiao().toArray(new XueSheng[0]);
+                ChengJi[] chengJiArr = chengJiGuanLi.getChengJiMap().values().toArray(new ChengJi[0]);
+                BaoBiaoShengCheng.XueShengBaoBiao[] baoBiaoArr = baoBiaoShengCheng.shengChengBaoBiao(xueShengArr, chengJiArr);
+                String text = "";
+                for (int i = 0; i < baoBiaoArr.length; i++) {
+                    BaoBiaoShengCheng.XueShengBaoBiao sbb = baoBiaoArr[i];
+                    text += "学号: " + sbb.getXueHao()
+                          + ", 姓名: " + sbb.getXingMing()
+                          + ", 数学: " + (sbb.getKeMuChengJi().length > 0 ? sbb.getKeMuChengJi()[0] : "")
+                          + ", Java: " + (sbb.getKeMuChengJi().length > 1 ? sbb.getKeMuChengJi()[1] : "")
+                          + ", 体育: " + (sbb.getKeMuChengJi().length > 2 ? sbb.getKeMuChengJi()[2] : "")
+                          + ", 总成绩: " + sbb.getZongChengJi()
+                          + ", 班级总成绩平均值: " + sbb.getBanJiZongChengJiPingJun()
+                          + "\n";
+                }
+                reportArea.setText(text);
             }
-            reportArea.setText(sb.toString());
         });
 
-        exportExcelButton.addActionListener(e -> {
-            List<BaoBiaoShengCheng.XueShengBaoBiao> baoBiao = baoBiaoShengCheng.shengChengBaoBiao(xueShengGuanLi.getXueShengLieBiao(), chengJiGuanLi.getChengJiMap());
-            excelDaoChu.daoChuChengJiBiao(baoBiao, "成绩表.xlsx");
-            JOptionPane.showMessageDialog(this, "成绩报表已导出到 成绩表.xlsx");
+        exportExcelButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                XueSheng[] xueShengArr = xueShengGuanLi.getXueShengLieBiao().toArray(new XueSheng[0]);
+                ChengJi[] chengJiArr = chengJiGuanLi.getChengJiMap().values().toArray(new ChengJi[0]);
+                BaoBiaoShengCheng.XueShengBaoBiao[] baoBiaoArr = baoBiaoShengCheng.shengChengBaoBiao(xueShengArr, chengJiArr);
+                ExcelDaoChu.exportToExcel(baoBiaoArr, "成绩表.xlsx");
+                JOptionPane.showMessageDialog(null, "成绩报表已导出到 成绩表.xlsx");
+            }
         });
 
         JPanel buttonPanel = new JPanel();
